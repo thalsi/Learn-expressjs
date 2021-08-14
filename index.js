@@ -2,9 +2,14 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-//post methord use this
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
+var cors = require('cors')
+
+app.use(cors())
+
+app.use(express.urlencoded());
+
+// Parse JSON bodies (as sent by API clients)
+app.use(express.json())
 
 //medilware 
 app.use((req, res, next) => {

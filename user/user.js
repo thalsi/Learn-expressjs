@@ -5,13 +5,14 @@ const data = require('../db/data');
 
 
 router.get('/', (req, res) => {
-    res.json({ message: "user list sccefully..!", users: data });
+    res.status(200).json({ message: "user list sccefully..!", users: data });
 });
 
 router.post('/add', (req, res) => {
+    console.log(req.body);
     if (!req.body.name) {
         res.status(400);
-        res.json({ message: "Bad Request" });
+        res.json({ message: "Bad Request", error: 'name invalid' });
     } else {
         var id = data.length + 1;
         data.push({
@@ -38,14 +39,16 @@ router.put('/update', (req, res) => {
     }
 })
 
-router.delete('/delete', (req, res) => {
-    if (!req.body.id) {
-        res.status(400);
-        res.json({ message: "Bad Request" });
-    } else {
-        data.slice(req.body.id - 1, 1);
-        console.log(data);
-    }
+router.delete('/delete/:id', (req, res) => {
+    console.log('deltee working');
+    console.log(req.params);
+    const { id } = req.params;
+    const projectIndex = data.findIndex(p => p.id == id);
+    data.splice(projectIndex, 1);
+    res.status(200);
+    res.json({ message: "Delete susscullfy..1" });
+    console.log(data);
+    
 })
 
 module.exports = router;
